@@ -14,7 +14,7 @@ interface SidebarItemProps {
 function SidebarItem({ title, icon, href, }: SidebarItemProps) {
     const pathname = usePathname();
 
-    const isActive = pathname === href;
+    const isActive = pathname.startsWith(href);
     return (
         <Link
             href={href}
@@ -28,7 +28,7 @@ function SidebarItem({ title, icon, href, }: SidebarItemProps) {
 
 export default function SidebarComponent() {
     return (
-        <aside className="flex flex-col gap-y-8 w-56 h-full bg-sidebar p-4">
+        <aside className="hidden lg:flex flex-col gap-y-8 w-56 h-full bg-sidebar p-4">
             <div className="flex gap-2 items-center">
                 <div className="size-7 bg-gray-500 rounded-full"></div>
                 <strong>Mock</strong>

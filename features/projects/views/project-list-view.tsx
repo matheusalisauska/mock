@@ -19,7 +19,7 @@ export async function ProjectListView({ params }: Props) {
 
     return (
         <EntityContainer
-            header={<EntityHeader title="Projects" />}
+            header={<EntityHeader path={<strong>Projects</strong>} />}
             filters={<ProjectFilters />}
             create={<CreateProjectDialog />}
         >

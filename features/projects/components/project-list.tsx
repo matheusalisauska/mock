@@ -9,7 +9,7 @@ export function ProjectList() {
     const { data: { items } } = useSuspenseQuery(orpc.projects.list.queryOptions({ input: params }));
 
     return (
-        <div className="grid grid-cols-5 gap-4 w-full">
+        <div className="flex fle-col lg:grid lg:grid-cols-5 gap-4 w-full">
             {items.map((project, index) => (
                 <ProjectCard key={index} project={project} />
             ))}

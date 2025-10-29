@@ -3,13 +3,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { PropsWithChildren } from "react";
 
 interface EntityHeaderProps {
-    title: string;
+    path: React.ReactNode;
 }
 
-export const EntityHeader = ({ title }: EntityHeaderProps) => {
+export const EntityHeader = ({ path }: EntityHeaderProps) => {
     return (
         <header className="flex bg-sidebar w-full py-3">
-            <strong>{title}</strong>
+            {path}
             <div className="flex items-center gap-4 ml-auto">
                 <Bell size={18} />
                 <Avatar>
