@@ -1,1 +1,11 @@
+import {
+  createProject,
+  listProjects,
+} from "@/features/projects/server/procedures";
 
+export const router = {
+  projects: {
+    list: listProjects,
+    create: createProject,
+  },
+};

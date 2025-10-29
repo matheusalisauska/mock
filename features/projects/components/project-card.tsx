@@ -7,26 +7,31 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card";
+import { Entity } from "@/lib/generated/prisma/client";
 import { EllipsisVertical } from "lucide-react";
 
+interface ProjectCardProps {
+    name: string;
+    entities: Entity[];
+}
 
-export function ProjectCard() {
+export function ProjectCard({ name, entities }: ProjectCardProps) {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Plataforma Comercial</CardTitle>
-                <CardDescription>8 entidades</CardDescription>
+                <CardTitle>{name}</CardTitle>
+                <CardDescription>{entities.length} entidades</CardDescription>
                 <CardAction>
                     <EllipsisVertical size={16} />
                 </CardAction>
             </CardHeader>
             <CardFooter className="gap-2">
-                <Badge variant="outline">
-                    Users
-                </Badge>
-                <Badge variant="outline">
-                    Contracts
-                </Badge>
+                {!entities.length && <Badge variant="outline">Nenhuma</Badge>}
+                {entities.map((entity) => (
+                    <Badge key={entity.id} variant="outline">
+                        {entity.name}
+                    </Badge>
+                ))}
             </CardFooter>
         </Card>
     );
