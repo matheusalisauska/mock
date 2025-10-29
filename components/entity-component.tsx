@@ -8,7 +8,7 @@ interface EntityHeaderProps {
 
 export const EntityHeader = ({ title }: EntityHeaderProps) => {
     return (
-        <header className="flex bg-sidebar w-full px-4 py-3">
+        <header className="flex bg-sidebar w-full py-3">
             <strong>{title}</strong>
             <div className="flex items-center gap-4 ml-auto">
                 <Bell size={18} />

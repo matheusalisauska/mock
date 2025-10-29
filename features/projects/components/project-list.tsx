@@ -2,14 +2,16 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ProjectCard } from "./project-card";
 import { orpc } from "@/lib/orpc";
+import { useProjectParams } from "../hooks/use-project-params";
 
 export function ProjectList() {
-    const { data: { projects } } = useSuspenseQuery(orpc.projects.list.queryOptions());
+    const [params] = useProjectParams();
+    const { data: { items } } = useSuspenseQuery(orpc.projects.list.queryOptions({ input: params }));
 
     return (
         <div className="grid grid-cols-5 gap-4 w-full">
-            {projects.map((project, index) => (
-                <ProjectCard key={index} name={project.name} entities={project.entities} />
+            {items.map((project, index) => (
+                <ProjectCard key={index} project={project} />
             ))}
         </div>
     );

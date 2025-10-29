@@ -8,17 +8,17 @@ import {
     DialogTitle,
     DialogTrigger
 } from "@/components/ui/dialog";
-import { SquarePlus } from "lucide-react";
-import { Controller, useForm } from "react-hook-form";
-import { CreateProjectDTO, CreateProjectSchema } from "../validators/create-project-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { orpc } from "@/lib/orpc";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { orpc } from "@/lib/orpc";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { isDefinedError } from "@orpc/client";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { SquarePlus } from "lucide-react";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { CreateProjectDTO, CreateProjectSchema } from "../schemas/create-project-schema";
 
 export function CreateProjectDialog() {
     const [open, setOpen] = useState(false);
@@ -36,7 +36,12 @@ export function CreateProjectDialog() {
     const createProjectMutation = useMutation(orpc.projects.create.mutationOptions({
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: orpc.projects.list.key() });
-            toast.success(`Project "${data.name}" created successfully.`);
+
+            toast.success(
+                <>
+                    Project <strong>{data.name}</strong> created successfully.
+                </>
+            );
 
             setOpen(false);
             form.reset();

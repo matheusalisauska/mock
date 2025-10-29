@@ -1,3 +1,4 @@
+"use client";
 import { Badge } from "@/components/ui/badge";
 import {
     Card,
@@ -7,27 +8,70 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card";
-import { Entity } from "@/lib/generated/prisma/client";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { Entity, Project } from "@/lib/generated/prisma/client";
+import { orpc } from "@/lib/orpc";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EllipsisVertical } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+
 
 interface ProjectCardProps {
-    name: string;
-    entities: Entity[];
+    project: Project & { entities: Entity[] };
 }
 
-export function ProjectCard({ name, entities }: ProjectCardProps) {
+export function ProjectCard({ project }: ProjectCardProps) {
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const queryClient = useQueryClient();
+
+    const deleteProjectMutation = useMutation(orpc.projects.delete.mutationOptions({
+        onSuccess: () => {
+            setDropdownOpen(false);
+            queryClient.invalidateQueries({ queryKey: orpc.projects.list.key() });
+
+            toast.success(
+                <>
+                    Project <strong>{project.name}</strong> deleted successfully.
+                </>
+            );
+        },
+        onError: () => {
+            setDropdownOpen(false);
+            toast.error(`Failed to delete project "${name}".`);
+        }
+    }));
+
     return (
         <Card>
             <CardHeader>
-                <CardTitle>{name}</CardTitle>
-                <CardDescription>{entities.length} entidades</CardDescription>
+                <CardTitle>{project.name}</CardTitle>
+                <CardDescription>{project.entities.length} entidades</CardDescription>
                 <CardAction>
-                    <EllipsisVertical size={16} />
+                    <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+                        <DropdownMenuTrigger className="hover:bg-accent p-1 rounded-md cursor-pointer">
+                            <EllipsisVertical size={16} />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem >
+                                Open
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                onClick={() => deleteProjectMutation.mutate({ projectId: project.id })} className="text-destructive" >
+                                Delete
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </CardAction>
             </CardHeader>
             <CardFooter className="gap-2">
-                {!entities.length && <Badge variant="outline">Nenhuma</Badge>}
-                {entities.map((entity) => (
+                {!project.entities.length && <Badge variant="outline">Nenhuma</Badge>}
+                {project.entities.map((entity) => (
                     <Badge key={entity.id} variant="outline">
                         {entity.name}
                     </Badge>
