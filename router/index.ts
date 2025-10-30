@@ -1,3 +1,4 @@
+import { createPix } from "@/features/billing/server/procedures";
 import {
   createProject,
   deleteProject,
@@ -9,5 +10,8 @@ export const router = {
     list: listProjects,
     create: createProject,
     delete: deleteProject,
+  },
+  billing: {
+    createPix,
   },
 };

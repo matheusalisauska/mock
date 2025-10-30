@@ -1,4 +1,4 @@
-import { EntityContainer, EntityHeader } from "@/components/entity-component";
+import { EntityContainer } from "@/components/entity-component";
 import { getQueryClient, HydrateClient } from "@/lib/query/hydration";
 import { Suspense } from "react";
 import { ProjectHeader } from "../components/project-view/project-header";
