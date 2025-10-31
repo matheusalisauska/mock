@@ -40,3 +40,5 @@ export const PixErrorSchema = z.object({
 });
 
 export const CreatePixOutput = z.union([PixSuccessSchema, PixErrorSchema]);
+
+export type CreatePixOutput = z.infer<typeof CreatePixOutput>;

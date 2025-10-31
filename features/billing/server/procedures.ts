@@ -29,33 +29,33 @@ export const createPix = base
         }
       );
 
-      const data = await request.json();
-      console.log(data);
-      if (!request.ok) {
-        return { error: data.message || "Erro ao criar PIX" };
+      const response: CreatePixOutput = await request.json();
+
+      if (!request.ok || response.error || !response.data) {
+        return { error: response.error || "Erro ao criar PIX" };
       }
 
       return {
         success: true,
         data: {
-          id: data.id,
-          amount: data.amount,
-          status: data.status,
-          devMode: data.devMode,
-          brCode: data.brCode,
-          brCodeBase64: data.brCodeBase64,
-          createdAt: data.createdAt,
-          updatedAt: data.updatedAt,
-          expiresAt: data.expiresAt,
-          platformFee: data.platformFee,
+          id: response.data.id,
+          amount: response.data.amount,
+          status: response.data.status,
+          devMode: response.data.devMode,
+          brCode: response.data.brCode,
+          brCodeBase64: response.data.brCodeBase64,
+          createdAt: response.data.createdAt,
+          updatedAt: response.data.updatedAt,
+          expiresAt: response.data.expiresAt,
+          platformFee: response.data.platformFee,
           metadata: {
-            externalId: data.metadata.externalId,
+            externalId: response.data.metadata.externalId,
           },
         },
         error: null,
       };
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
+      console.log(err);
       return { error: "Erro interno ao criar PIX" };
     }
   });

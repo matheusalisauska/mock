@@ -3,9 +3,10 @@ import prisma from "@/lib/db";
 import { Prisma, Project } from "@/lib/generated/prisma/client";
 import { requireAuth } from "@/middlewares/auth-middleware";
 import { base } from "@/middlewares/base";
-import { z } from "zod";
 import { paginatedResponseSchema } from "@/schemas/pagination";
+import { z } from "zod";
 import { CreateProjectSchema } from "../schemas/create-project-schema";
+import { canCreateProject } from "./policy";
 
 export const listProjects = base
   .use(requireAuth)
@@ -27,6 +28,7 @@ export const listProjects = base
   )
   .handler(async ({ input, context }) => {
     const { page, pageSize, search } = input;
+
     const [items, totalCount] = await Promise.all([
       prisma.project.findMany({
         skip: (page - 1) * pageSize,
@@ -71,6 +73,12 @@ export const createProject = base
   .input(CreateProjectSchema)
   .output(z.custom<Project>())
   .handler(async ({ input, context, errors }) => {
+    if (!(await canCreateProject(context.user.id, context.user.plan))) {
+      throw errors.FORBIDDEN({
+        message: "Project creation limit reached for your plan.",
+      });
+    }
+
     const project = await prisma.project.create({
       data: {
         name: input.name,

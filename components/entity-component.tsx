@@ -4,12 +4,18 @@ import { PropsWithChildren } from "react";
 
 interface EntityHeaderProps {
     path: React.ReactNode;
+    tabs?: React.ReactNode;
 }
 
-export const EntityHeader = ({ path }: EntityHeaderProps) => {
+export const EntityHeader = ({ path, tabs }: EntityHeaderProps) => {
     return (
         <header className="flex bg-sidebar w-full py-3">
-            {path}
+            <div className="flex items-center gap-4">
+                <p className="text-lg">
+                    {path}
+                </p>
+                {tabs}
+            </div>
             <div className="flex items-center gap-4 ml-auto">
                 <Bell size={18} />
                 <Avatar>
@@ -29,7 +35,7 @@ interface EntityContainerProps extends PropsWithChildren {
 
 export const EntityContainer = ({ children, header, filters, create }: EntityContainerProps) => {
     return (
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-4 p-4 h-full">
             {header}
             <div className="flex items-center justify-between">
                 {filters}
