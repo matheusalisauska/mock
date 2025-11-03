@@ -13,7 +13,7 @@ interface Props {
 
 export async function ProjectListView({ params }: Props) {
     const queryClient = getQueryClient();
-    await queryClient.prefetchQuery(orpc.projects.list.queryOptions({
+    await queryClient.prefetchQuery(orpc.projects.getMany.queryOptions({
         input: params,
     }));
 

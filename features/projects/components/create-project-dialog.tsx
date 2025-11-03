@@ -35,7 +35,7 @@ export function CreateProjectDialog() {
 
     const createProjectMutation = useMutation(orpc.projects.create.mutationOptions({
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: orpc.projects.list.key() });
+            queryClient.invalidateQueries({ queryKey: orpc.projects.getMany.key() });
 
             toast.success(
                 <>

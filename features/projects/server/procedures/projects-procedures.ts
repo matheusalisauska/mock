@@ -5,10 +5,35 @@ import { requireAuth } from "@/middlewares/auth-middleware";
 import { base } from "@/middlewares/base";
 import { paginatedResponseSchema } from "@/schemas/pagination";
 import { z } from "zod";
-import { CreateProjectSchema } from "../schemas/create-project-schema";
-import { canCreateProject } from "./policy";
+import { CreateProjectSchema } from "../../schemas/create-project-schema";
+import { canCreateProject } from "../policy";
 
-export const listProjects = base
+export const getOneProject = base
+  .use(requireAuth)
+  .input(
+    z.object({
+      id: z.cuid(),
+      includeEntities: z.boolean().default(false),
+    })
+  )
+  .output(z.custom<Project>())
+  .handler(async ({ input, context, errors }) => {
+    const project = await prisma.project.findUnique({
+      where: {
+        id: input.id,
+        userId: context.user.id,
+      },
+      include: input.includeEntities ? { entities: true } : undefined,
+    });
+
+    if (!project) {
+      throw errors.BAD_REQUEST();
+    }
+
+    return project;
+  });
+
+export const getManyProjects = base
   .use(requireAuth)
   .input(
     z.object({
@@ -84,6 +109,7 @@ export const createProject = base
         name: input.name,
         description: input.description,
         userId: context.user.id,
+        url: input.name,
       },
     });
 

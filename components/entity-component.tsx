@@ -11,9 +11,9 @@ export const EntityHeader = ({ path, tabs }: EntityHeaderProps) => {
     return (
         <header className="flex bg-sidebar w-full py-3">
             <div className="flex items-center gap-4">
-                <p className="text-lg">
+                <span className="text-lg">
                     {path}
-                </p>
+                </span>
                 {tabs}
             </div>
             <div className="flex items-center gap-4 ml-auto">

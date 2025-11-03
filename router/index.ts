@@ -1,15 +1,29 @@
 import { createPix } from "@/features/billing/server/procedures";
 import {
+  getManyEntities,
+  getManyEntitiesWithFields,
+} from "@/features/projects/server/procedures/entities-procedures";
+import { getManyFields } from "@/features/projects/server/procedures/fields-procedures";
+import {
   createProject,
   deleteProject,
-  listProjects,
-} from "@/features/projects/server/procedures";
+  getManyProjects,
+  getOneProject,
+} from "@/features/projects/server/procedures/projects-procedures";
 
 export const router = {
   projects: {
-    list: listProjects,
+    getOne: getOneProject,
+    getMany: getManyProjects,
     create: createProject,
     delete: deleteProject,
+  },
+  entities: {
+    getMany: getManyEntities,
+    getManyWithFields: getManyEntitiesWithFields,
+  },
+  fields: {
+    getMany: getManyFields,
   },
   billing: {
     createPix,

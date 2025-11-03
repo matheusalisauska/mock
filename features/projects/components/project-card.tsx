@@ -34,7 +34,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     const deleteProjectMutation = useMutation(orpc.projects.delete.mutationOptions({
         onSuccess: () => {
             setDropdownOpen(false);
-            queryClient.invalidateQueries({ queryKey: orpc.projects.list.key() });
+            queryClient.invalidateQueries({ queryKey: orpc.projects.getMany.key() });
 
             toast.success(
                 <>
