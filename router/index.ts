@@ -2,7 +2,7 @@ import { createPix } from "@/features/billing/server/procedures";
 import {
   getManyEntities,
   getManyEntitiesWithFields,
-} from "@/features/projects/server/procedures/entities-procedures";
+} from "@/features/entities/server/entities-procedures";
 import { getManyFields } from "@/features/projects/server/procedures/fields-procedures";
 import {
   createProject,

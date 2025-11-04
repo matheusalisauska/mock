@@ -16,7 +16,7 @@ export const getManyFields = base
         .min(PAGINATION.MIN_PAGE_SIZE)
         .max(PAGINATION.MAX_PAGE_SIZE)
         .default(PAGINATION.DEFAULT_PAGE_SIZE),
-      entityId: z.string(),
+      entityId: z.string().optional(),
     })
   )
   .output(paginatedResponseSchema(z.custom<Field>()))

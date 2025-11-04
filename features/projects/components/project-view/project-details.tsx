@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { env } from "@/lib/env";
 import { orpc } from "@/lib/orpc";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { Boxes } from "lucide-react";
 
 export function ProjectDetails({ id }: { id: string }) {
     const { data: project } = useSuspenseQuery(orpc.projects.getOne.queryOptions({ input: { id } }));
@@ -11,7 +12,8 @@ export function ProjectDetails({ id }: { id: string }) {
     return (
         <Card className="gap-1 w-fit h-fit">
             <CardHeader>
-                <CardTitle className="text-lg">
+                <CardTitle className="flex gap-1 items-center text-lg">
+                    <Boxes size={18} />
                     {project.name}
                 </CardTitle>
             </CardHeader>
