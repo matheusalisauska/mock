@@ -1,20 +1,23 @@
 "use client";
 
+import { Toaster } from "@/components/ui/sonner";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { useState } from "react";
 import { createQueryClient } from "../lib/query/client";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/sonner";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { PHProvider } from "./ph-provider";
 
 export function Providers(props: { children: React.ReactNode }) {
     const [queryClient] = useState(() => createQueryClient());
 
     return (
         <QueryClientProvider client={queryClient}>
-            <NuqsAdapter>
-                {props.children}
-            </NuqsAdapter>
-            <Toaster richColors />
+            <PHProvider>
+                <NuqsAdapter>
+                    {props.children}
+                </NuqsAdapter>
+                <Toaster richColors />
+            </PHProvider>
         </QueryClientProvider>
     );
 }

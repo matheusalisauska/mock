@@ -19,8 +19,11 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { CreateProjectDTO, CreateProjectSchema } from "../schemas/create-project-schema";
+import posthog from "posthog-js";
+import { useBetaFeature } from "../hooks/use-beta-feature";
 
 export function CreateProjectDialog() {
+    const flag = useBetaFeature();
     const [open, setOpen] = useState(false);
     const queryClient = useQueryClient();
     const form = useForm<CreateProjectDTO>({
@@ -42,7 +45,7 @@ export function CreateProjectDialog() {
                     Project <strong>{data.name}</strong> created successfully.
                 </>
             );
-
+            posthog.capture("project_created", { project_id: data.id, project_name: data.name });
             setOpen(false);
             form.reset();
         },
@@ -51,7 +54,6 @@ export function CreateProjectDialog() {
                 toast.error(error.message);
                 return;
             }
-
             toast.error("Failed to create project. Please try again.");
         }
     }));
@@ -60,12 +62,13 @@ export function CreateProjectDialog() {
         createProjectMutation.mutate(data);
     }
 
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button className="ml-auto">
                     <SquarePlus />
-                    New project
+                    New project {!flag ? "Yes" : "(Beta)"}
                 </Button>
             </DialogTrigger>
             <DialogContent className="lg:max-w-[350px]">
