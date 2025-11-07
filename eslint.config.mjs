@@ -12,6 +12,7 @@ const eslintConfig = defineConfig([
       semi: ["error", "always"],
       quotes: ["error", "double"],
       "react-hooks/set-state-in-effect": "off",
+      "tailwindcss/no-custom-classname": "off",
     },
   },
 

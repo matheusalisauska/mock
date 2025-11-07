@@ -1,8 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Folder, PencilIcon, Trash2 } from "lucide-react";
-import { EntitiesWithFields } from "../../../entities/server/entities-procedures";
+import { EllipsisVertical, Folder, PencilIcon, Trash2 } from "lucide-react";
+import { EntitiesWithFields } from "../server/entities-procedures";
 
 interface EntityCardProps {
     entity: EntitiesWithFields;
@@ -17,7 +17,10 @@ export function EntityCard({ entity }: EntityCardProps) {
                         <Folder size={18} />
                         {entity.name}
                     </CardTitle>
-                    <Button variant={"default"} size={"sm"}>New field</Button>
+                    <div className="flex items-center gap-1">
+                        <Button variant={"default"} size={"sm"}>New field</Button>
+                        <EllipsisVertical size={18} />
+                    </div>
                 </div>
             </CardHeader>
             <CardContent className="space-y-4">

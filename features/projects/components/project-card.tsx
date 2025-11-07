@@ -50,13 +50,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
     return (
         <Link className="w-full" href={`/projects/${project.id}`}>
-            <Card className="hover:brightness-98 cursor-pointer w-full">
+            <Card className="w-full cursor-pointer hover:brightness-98">
                 <CardHeader>
                     <CardTitle>{project.name}</CardTitle>
                     <CardDescription>{project.entities.length} entidades</CardDescription>
                     <CardAction>
                         <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
-                            <DropdownMenuTrigger className="hover:bg-accent p-1 rounded-md cursor-pointer">
+                            <DropdownMenuTrigger className="hover:bg-accent cursor-pointer rounded-md p-1">
                                 <EllipsisVertical size={16} />
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>

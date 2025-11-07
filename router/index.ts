@@ -1,5 +1,6 @@
 import { createPix } from "@/features/billing/server/procedures";
 import {
+  createEntity,
   getManyEntities,
   getManyEntitiesWithFields,
 } from "@/features/entities/server/entities-procedures";
@@ -21,6 +22,7 @@ export const router = {
   entities: {
     getMany: getManyEntities,
     getManyWithFields: getManyEntitiesWithFields,
+    create: createEntity,
   },
   fields: {
     getMany: getManyFields,

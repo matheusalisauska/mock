@@ -5,6 +5,8 @@ import { requireAuth } from "@/middlewares/auth-middleware";
 import { base } from "@/middlewares/base";
 import { paginatedResponseSchema } from "@/schemas/pagination";
 import z from "zod";
+import { CreateEntitySchema } from "../schemas/create-entity-schema";
+import { canCreateEntity } from "./policy";
 
 export type EntitiesWithFields = Prisma.EntityGetPayload<{
   include: { fields: true };
@@ -99,4 +101,38 @@ export const getManyEntitiesWithFields = base
       hasNextPage,
       hasPreviousPage,
     };
+  });
+
+export const createEntity = base
+  .use(requireAuth)
+  .input(CreateEntitySchema)
+  .output(z.custom<Entity>())
+  .handler(async ({ input, context, errors }) => {
+    if (!(await canCreateEntity(context.user.id, context.user.plan))) {
+      throw errors.FORBIDDEN({
+        message: "Project creation limit reached for your plan.",
+      });
+    }
+
+    const entity = await prisma.entity.create({
+      data: {
+        name: input.name,
+        projectId: input.projectId,
+        fields: {
+          create: (input.fields || []).map((f) => ({
+            name: f.name,
+            type: f.type,
+            required: f.required,
+            fakerGenerator: f.fakerGenerator ?? undefined,
+            fakerArgs: f.fakerArgs ?? undefined,
+          })),
+        },
+      },
+    });
+
+    if (!entity) {
+      throw errors.BAD_REQUEST();
+    }
+
+    return entity;
   });
