@@ -16,9 +16,8 @@ export function ProjectHeader() {
 
 function ProjectBreadcrumb() {
     return (
-        <Breadcrumb>
+        <Breadcrumb >
             <BreadcrumbList>
-
                 <BreadcrumbItem>
                     <BreadcrumbLink href="/projects">Projects</BreadcrumbLink>
                 </BreadcrumbItem>

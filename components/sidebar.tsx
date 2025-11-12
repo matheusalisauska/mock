@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Boxes, HomeIcon, PiggyBank, Wallet } from "lucide-react";
+import { Boxes, HomeIcon, Wallet } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -19,7 +19,7 @@ function SidebarItem({ title, icon, href, }: SidebarItemProps) {
         <Link
             href={href}
             className={cn("flex items-center gap-2 p-2 rounded-md ",
-                isActive ? "bg-primary text-white" : "hover:bg-[#ebe8e5]")}>
+                isActive ? "bg-primary text-white" : "hover:bg-[#ebe8e5] hover:dark:bg-sidebar-accent")}>
             {icon}
             <span>{title}</span>
         </Link>
@@ -28,9 +28,9 @@ function SidebarItem({ title, icon, href, }: SidebarItemProps) {
 
 export default function SidebarComponent() {
     return (
-        <aside className="hidden lg:flex flex-col gap-y-8 w-56 h-full bg-sidebar p-4">
-            <div className="flex gap-2 items-center">
-                <div className="size-7 bg-gray-500 rounded-full"></div>
+        <aside className="bg-sidebar hidden h-full w-56 flex-col gap-y-8 p-4 lg:flex">
+            <div className="flex items-center gap-2">
+                <div className="size-7 rounded-full bg-gray-500"></div>
                 <strong>Mock</strong>
             </div>
             <div className="flex flex-col gap-2">

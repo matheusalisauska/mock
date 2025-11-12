@@ -9,7 +9,7 @@ interface EntityHeaderProps {
 
 export const EntityHeader = ({ path, tabs }: EntityHeaderProps) => {
     return (
-        <header className="bg-sidebar flex w-full py-3">
+        <header className="flex w-full py-3">
             <div className="flex items-center gap-4">
                 <span className="text-lg">
                     {path}
@@ -35,7 +35,7 @@ interface EntityContainerProps extends PropsWithChildren {
 
 export const EntityContainer = ({ children, header, filters, create }: EntityContainerProps) => {
     return (
-        <div className="flex h-full flex-col gap-4 p-4">
+        <div className="1 flex h-full flex-col gap-4 p-4">
             {header}
             <div className="flex items-center justify-between">
                 {filters}

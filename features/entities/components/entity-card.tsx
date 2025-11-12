@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EllipsisVertical, Folder, PencilIcon, Trash2 } from "lucide-react";
 import { EntitiesWithFields } from "../server/entities-procedures";
+import { CreateFieldDialog } from "@/features/fields/components/create-field-dialog";
 
 interface EntityCardProps {
     entity: EntitiesWithFields;
@@ -18,14 +19,14 @@ export function EntityCard({ entity }: EntityCardProps) {
                         {entity.name}
                     </CardTitle>
                     <div className="flex items-center gap-1">
-                        <Button variant={"default"} size={"sm"}>New field</Button>
+
                         <EllipsisVertical size={18} />
                     </div>
                 </div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-2">
                 {entity.fields.map((field) => (
-                    <div key={field.id} className="bg-secondary/60 flex items-center gap-x-2 rounded-md p-2 px-4">
+                    <div key={field.id} className="bg-secondary/60 dark:bg-accent/20 flex items-center gap-x-2 rounded-md p-2 px-4 dark:border ">
                         <p>{field.name}</p>
                         <Badge asChild>
                             <span className="text-[11px]">{field.type}</span>
@@ -40,6 +41,9 @@ export function EntityCard({ entity }: EntityCardProps) {
                         </div>
                     </div>
                 ))}
+                <CreateFieldDialog entityId={entity.id}>
+                    <Button variant={"ghost"} className="bg-secondary/60 flex w-full items-center gap-x-2 rounded-md p-2 px-4 dark:border dark:bg-transparent " size={"sm"}>New field</Button>
+                </CreateFieldDialog>
             </CardContent>
         </Card>
     );

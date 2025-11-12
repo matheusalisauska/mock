@@ -9,7 +9,7 @@ export default function ProtectedLayout({
     return (
         <div className="flex h-full">
             <SidebarComponent />
-            <div className="flex flex-col flex-1">
+            <div className="flex flex-1 flex-col">
                 {children}
             </div>
         </div>
