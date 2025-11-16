@@ -19,3 +19,20 @@ export async function canCreateEntity(userId: string, plan: PlanType) {
 
   return count < PREMIUM_PLAN_LIMITS.ENTITIES;
 }
+
+export async function canUpdateEntity(userId: string, entityId: string) {
+  const entity = await prisma.entity.findUnique({
+    where: {
+      id: entityId,
+    },
+    include: {
+      project: {
+        select: {
+          userId: true,
+        },
+      },
+    },
+  });
+
+  return entity?.project.userId === userId;
+}

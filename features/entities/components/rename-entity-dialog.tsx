@@ -8,36 +8,36 @@ import {
 } from "@/components/ui/dialog";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { orpc } from "@/lib/orpc";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { isDefinedError } from "@orpc/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PropsWithChildren, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { orpc } from "@/lib/orpc";
 import { toast } from "sonner";
-import { isDefinedError } from "@orpc/client";
-import { CreateEntityDTO, CreateEntitySchema } from "../schemas";
+import { UpdateEntityDTO, UpdateEntitySchema } from "../schemas";
 
 interface Props extends PropsWithChildren {
-    projectId: string;
+    entityId: string;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
 }
 
-export function CreateEntityDialog({ children, projectId }: Props) {
-    const [open, setOpen] = useState(false);
+export function RenameEntityDialog({ children, entityId, open, onOpenChange }: Props) {
 
     const queryClient = useQueryClient();
 
-    const form = useForm<CreateEntityDTO>({
+    const form = useForm<UpdateEntityDTO>({
         mode: "onChange",
-        resolver: zodResolver(CreateEntitySchema),
+        resolver: zodResolver(UpdateEntitySchema),
         defaultValues: {
             name: "",
-            projectId: projectId,
-            fields: [],
+            id: entityId,
         },
     });
 
 
-    const createEntityMutation = useMutation(orpc.entities.create.mutationOptions({
+    const renameEntityMutation = useMutation(orpc.entities.update.mutationOptions({
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: orpc.entities.getMany.key() });
             queryClient.invalidateQueries({ queryKey: orpc.entities.getManyWithFields.key() });
@@ -45,11 +45,11 @@ export function CreateEntityDialog({ children, projectId }: Props) {
 
             toast.success(
                 <>
-                    Entity <strong>{data.name}</strong> created successfully.
+                    Entity <strong>{data.name}</strong> updated successfully.
                 </>
             );
 
-            setOpen(false);
+            onOpenChange(false);
             form.reset();
         },
         onError: (error) => {
@@ -58,22 +58,22 @@ export function CreateEntityDialog({ children, projectId }: Props) {
                 return;
             }
 
-            toast.error("Failed to create entity. Please try again.");
+            toast.error("Failed to update entity. Please try again.");
         }
     }));
 
-    function onSubmit(data: CreateEntityDTO) {
-        createEntityMutation.mutate(data);
+    function onSubmit(data: UpdateEntityDTO) {
+        renameEntityMutation.mutate(data);
     }
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
             <DialogContent className="lg:max-w-[350px]">
                 <DialogHeader className="gap-6">
-                    <DialogTitle>New entity</DialogTitle>
+                    <DialogTitle>Rename Entity</DialogTitle>
                     <form className="space-y-6" id="create-entity-form" onSubmit={form.handleSubmit(onSubmit)}>
                         <Controller
                             name="name"
@@ -96,10 +96,10 @@ export function CreateEntityDialog({ children, projectId }: Props) {
                                 Cancel
                             </Button>
                             <Button
-                                disabled={createEntityMutation.isPending}
+                                disabled={renameEntityMutation.isPending}
                                 type="submit"
                                 form="create-entity-form">
-                                {createEntityMutation.isPending ? "Creating..." : "Create entity"}
+                                {renameEntityMutation.isPending ? "Updating..." : "Update entity"}
                             </Button>
                         </Field>
                     </form>

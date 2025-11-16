@@ -55,8 +55,6 @@ export function EntityCodeBlock({ projectId }: EntityCodeBlockProps) {
 
     const jsonData = JSON.stringify(mockData, null, 2);
 
-
-
     return (
         <Card className="h-fit w-full max-w-[500px] gap-4">
             <CardHeader className="flex items-start justify-between">
@@ -78,7 +76,7 @@ export function EntityCodeBlock({ projectId }: EntityCodeBlockProps) {
                 </Select>
             </CardHeader>
             <CardContent>
-                <div className="dark:bg-accent/50 flex w-full flex-col overflow-x-auto rounded-md bg-gray-100 p-4">
+                <div className="dark:bg-accent/50  flex w-full flex-col overflow-x-auto rounded-md bg-gray-100 p-4">
                     <CopyButton textToCopy={jsonData} />
                     <pre >
                         <code>

@@ -12,3 +12,9 @@ export const CreateEntitySchema = z.object({
 });
 
 export type CreateEntityDTO = z.infer<typeof CreateEntitySchema>;
+
+export const UpdateEntitySchema = CreateEntitySchema.partial().extend({
+  id: z.cuid(),
+});
+
+export type UpdateEntityDTO = z.infer<typeof UpdateEntitySchema>;

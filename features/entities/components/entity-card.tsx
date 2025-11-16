@@ -1,9 +1,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { EllipsisVertical, Folder, PencilIcon, Trash2 } from "lucide-react";
-import { EntitiesWithFields } from "../server/entities-procedures";
 import { CreateFieldDialog } from "@/features/fields/components/create-field-dialog";
+import { Folder, PencilIcon, Trash2 } from "lucide-react";
+import { EntitiesWithFields } from "../server/entities-procedures";
+import { EntityActionsMenu } from "./entity-actions-menu";
 
 interface EntityCardProps {
     entity: EntitiesWithFields;
@@ -18,10 +19,7 @@ export function EntityCard({ entity }: EntityCardProps) {
                         <Folder size={18} />
                         {entity.name}
                     </CardTitle>
-                    <div className="flex items-center gap-1">
-
-                        <EllipsisVertical size={18} />
-                    </div>
+                    <EntityActionsMenu entity={entity} />
                 </div>
             </CardHeader>
             <CardContent className="space-y-2">
@@ -29,7 +27,7 @@ export function EntityCard({ entity }: EntityCardProps) {
                     <div key={field.id} className="bg-secondary/60 dark:bg-accent/20 flex items-center gap-x-2 rounded-md p-2 px-4 dark:border ">
                         <p>{field.name}</p>
                         <Badge asChild>
-                            <span className="text-[11px]">{field.type}</span>
+                            <span className="text-[11px] capitalize">{field.type}</span>
                         </Badge>
                         <div className="ml-auto flex items-center">
                             <Button variant={"ghost"} className="size-fit p-1.5 hover:bg-stone-300" size={"icon-sm"}>
@@ -42,7 +40,7 @@ export function EntityCard({ entity }: EntityCardProps) {
                     </div>
                 ))}
                 <CreateFieldDialog entityId={entity.id}>
-                    <Button variant={"ghost"} className="bg-secondary/60 flex w-full items-center gap-x-2 rounded-md p-2 px-4 dark:border dark:bg-transparent " size={"sm"}>New field</Button>
+                    <Button variant={"ghost"} className="bg-secondary/60 dark:bg-accent flex w-full items-center gap-x-2 rounded-md p-2 px-4 dark:border " size={"sm"}>New field</Button>
                 </CreateFieldDialog>
             </CardContent>
         </Card>

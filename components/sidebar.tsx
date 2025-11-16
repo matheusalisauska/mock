@@ -28,7 +28,7 @@ function SidebarItem({ title, icon, href, }: SidebarItemProps) {
 
 export default function SidebarComponent() {
     return (
-        <aside className="bg-sidebar hidden h-full w-56 flex-col gap-y-8 p-4 lg:flex">
+        <aside className="bg-sidebar dark:bg-sidebar hidden h-full w-56 flex-col gap-y-8 p-4 lg:flex">
             <div className="flex items-center gap-2">
                 <div className="size-7 rounded-full bg-gray-500"></div>
                 <strong>Mock</strong>

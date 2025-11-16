@@ -107,7 +107,7 @@ model Field {
   name      String
   type      FieldType
   required  Boolean   @default(false)
-  entity    Entity    @relation(fields: [entityId], references: [id])
+  entity    Entity    @relation(fields: [entityId], references: [id], onDelete: Cascade)
   entityId  String
   createdAt DateTime  @default(now())
 

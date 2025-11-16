@@ -1,10 +1,58 @@
 import { PAGINATION } from "@/config/constants";
 import prisma from "@/lib/db";
-import { Field } from "@/lib/generated/prisma/client";
+import { FakerGenerator, Field, FieldType } from "@/lib/generated/prisma";
 import { requireAuth } from "@/middlewares/auth-middleware";
 import { base } from "@/middlewares/base";
 import { paginatedResponseSchema } from "@/schemas/pagination";
 import z from "zod";
+import { canCreateField } from "../policy";
+import { CreateFieldSchema } from "../schemas/create-field-schema";
+
+export const getFakerGeneratorOptions = base
+  .input(
+    z.object({
+      baseType: z.custom<FieldType>(),
+    })
+  )
+  .output(z.array(z.custom<FakerGenerator>()))
+  .handler(async ({ input }) => {
+    const data = await prisma.fakerGenerator.findMany({
+      where: {
+        baseType: input.baseType,
+      },
+    });
+
+    return data;
+  });
+
+export const createField = base
+  .use(requireAuth)
+  .input(CreateFieldSchema)
+  .output(z.custom<Field>())
+  .handler(async ({ input, context, errors }) => {
+    if (!(await canCreateField(context.user.id, context.user.plan))) {
+      throw errors.FORBIDDEN({
+        message: "Field creation limit reached for your plan.",
+      });
+    }
+    console.log("enter");
+
+    const field = await prisma.field.create({
+      data: {
+        name: input.name,
+        type: input.type,
+        entityId: input.entityId,
+        fakerGenerator: input.fakerGenerator,
+        required: input.required,
+      },
+    });
+
+    if (!field) {
+      throw errors.BAD_REQUEST();
+    }
+
+    return field;
+  });
 
 export const getManyFields = base
   .use(requireAuth)

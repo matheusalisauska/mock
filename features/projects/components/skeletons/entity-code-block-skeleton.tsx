@@ -9,7 +9,7 @@ export function EntityCodeBlockSkeleton() {
                 <Skeleton className="h-8 w-32" />
             </CardHeader>
             <CardContent>
-                <div className="flex w-full flex-col gap-2 overflow-x-auto rounded-md bg-gray-100 p-4">
+                <div className="dark:bg-accent/20 flex w-full flex-col gap-2 overflow-x-auto rounded-md bg-gray-100  p-4">
                     <Skeleton className="ml-auto size-7" />
                     <div className="space-y-2">
                         <Skeleton className="h-7 w-full" />
