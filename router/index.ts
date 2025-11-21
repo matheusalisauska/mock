@@ -8,6 +8,7 @@ import {
 } from "@/features/entities/server/entities-procedures";
 import {
   createField,
+  deleteField,
   getFakerGeneratorOptions,
   getManyFields,
 } from "@/features/fields/server/fields-procedures";
@@ -36,6 +37,7 @@ export const router = {
     getMany: getManyFields,
     getFakerGeneratorOptions,
     create: createField,
+    delete: deleteField,
   },
   billing: {
     createPix,

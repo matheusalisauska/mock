@@ -50,7 +50,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
     return (
         <Link className="w-full" href={`/projects/${project.id}`}>
-            <Card className="w-full cursor-pointer hover:brightness-98">
+            <Card className="w-full cursor-pointer duration-200 hover:scale-[102%] hover:brightness-98">
                 <CardHeader>
                     <CardTitle>{project.name}</CardTitle>
                     <CardDescription>{project.entities.length} entidades</CardDescription>
@@ -74,7 +74,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 <CardFooter className="gap-2">
                     {!project.entities.length && <Badge variant="outline">Nenhuma</Badge>}
                     {project.entities.map((entity) => (
-                        <Badge key={entity.id} variant="outline">
+                        <Badge key={entity.id}>
                             {entity.name}
                         </Badge>
                     ))}

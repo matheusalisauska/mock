@@ -102,3 +102,36 @@ export const getManyFields = base
       hasPreviousPage,
     };
   });
+
+export const deleteField = base
+  .use(requireAuth)
+  .input(z.object({ fieldId: z.cuid() }))
+  .output(z.custom<Field>())
+  .handler(async ({ input, context, errors }) => {
+    const verifyField = await prisma.field.findUnique({
+      where: {
+        id: input.fieldId,
+      },
+      include: {
+        entity: {
+          select: { project: { select: { userId: true } } },
+        },
+      },
+    });
+
+    if (verifyField?.entity.project.userId !== context.user.id) {
+      throw errors.FORBIDDEN();
+    }
+
+    const field = await prisma.field.delete({
+      where: {
+        id: input.fieldId,
+      },
+    });
+
+    if (!field) {
+      throw errors.BAD_REQUEST();
+    }
+
+    return field;
+  });

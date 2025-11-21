@@ -5,6 +5,7 @@ import { CreateFieldDialog } from "@/features/fields/components/create-field-dia
 import { Folder, PencilIcon, Trash2 } from "lucide-react";
 import { EntitiesWithFields } from "../server/entities-procedures";
 import { EntityActionsMenu } from "./entity-actions-menu";
+import { DeleteFieldDialog } from "@/features/fields/components/delete-field-dialog";
 
 interface EntityCardProps {
     entity: EntitiesWithFields;
@@ -26,16 +27,18 @@ export function EntityCard({ entity }: EntityCardProps) {
                 {entity.fields.map((field) => (
                     <div key={field.id} className="bg-secondary/60 dark:bg-accent/20 flex items-center gap-x-2 rounded-md p-2 px-4 dark:border ">
                         <p>{field.name}</p>
-                        <Badge asChild>
+                        <Badge asChild className="py-px">
                             <span className="text-[11px] capitalize">{field.type}</span>
                         </Badge>
                         <div className="ml-auto flex items-center">
                             <Button variant={"ghost"} className="size-fit p-1.5 hover:bg-stone-300" size={"icon-sm"}>
                                 <PencilIcon size={14} className="text-foreground" />
                             </Button>
-                            <Button variant={"ghost"} className="size-fit p-1.5 hover:bg-stone-300" size={"icon-sm"}>
-                                <Trash2 size={14} className="text-foreground" />
-                            </Button>
+                            <DeleteFieldDialog fieldId={field.id}>
+                                <Button variant={"ghost"} className="size-fit p-1.5 hover:bg-stone-300" size={"icon-sm"}>
+                                    <Trash2 size={14} className=" text-destructive" />
+                                </Button>
+                            </DeleteFieldDialog>
                         </div>
                     </div>
                 ))}

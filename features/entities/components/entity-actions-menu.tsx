@@ -22,12 +22,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { EntitiesWithFields } from "../server/entities-procedures";
 import { RenameEntityDialog } from "./rename-entity-dialog";
+import { ViewEntityDialog } from "./view-entity-dialog";
 
-export function EntityActionsMenu({ entity }: { entity: Entity }) {
+export function EntityActionsMenu({ entity }: { entity: EntitiesWithFields }) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [confirmOpen, setConfirmOpen] = useState(false);
     const [renameOpen, setRenameOpen] = useState(false);
+    const [viewOpen, setViewOpen] = useState(false);
 
     const handleCopyUrl = () => {
         const url = `http://localhost:3000/api/mock/${entity.projectId}/${entity.name}`;
@@ -47,15 +50,23 @@ export function EntityActionsMenu({ entity }: { entity: Entity }) {
                 open={renameOpen}
                 onOpenChange={setRenameOpen}
             />
+            <ViewEntityDialog
+                entity={entity}
+                isOpen={viewOpen}
+                onOpenChange={setViewOpen}
+            />
             <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
                 <DropdownMenuTrigger asChild>
                     <Button variant={"ghost"} size={"icon-sm"}>
                         <EllipsisVertical size={18} />
                     </Button>
                 </DropdownMenuTrigger>
-
                 <DropdownMenuContent>
-                    <DropdownMenuItem onSelect={() => setDropdownOpen(false)}>
+                    <DropdownMenuItem
+                        onSelect={() => {
+                            setDropdownOpen(false);
+                            setViewOpen(true);
+                        }}>
                         View
                     </DropdownMenuItem>
                     <DropdownMenuItem
@@ -83,6 +94,8 @@ export function EntityActionsMenu({ entity }: { entity: Entity }) {
         </div>
     );
 }
+
+type EntitieProps = { items: EntitiesWithFields[] }
 
 function DeleteDialog({
     entity,

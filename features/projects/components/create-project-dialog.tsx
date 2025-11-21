@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogHeader,
     DialogTitle,
@@ -73,7 +74,7 @@ export function CreateProjectDialog() {
             </DialogTrigger>
             <DialogContent className="lg:max-w-[350px]">
                 <DialogHeader className="gap-6">
-                    <DialogTitle>New project</DialogTitle>
+                    <DialogTitle>Create your project</DialogTitle>
                     <form className="space-y-6" id="create-project-form" onSubmit={form.handleSubmit(onSubmit)}>
                         <Controller
                             name="name"
@@ -92,9 +93,11 @@ export function CreateProjectDialog() {
                             )}
                         />
                         <Field orientation="horizontal">
-                            <Button type="button" variant="outline" className="ml-auto" onClick={() => form.reset()}>
-                                Cancel
-                            </Button>
+                            <DialogClose asChild>
+                                <Button type="button" variant="outline" className="ml-auto" onClick={() => form.reset()}>
+                                    Cancel
+                                </Button>
+                            </DialogClose>
                             <Button disabled={createProjectMutation.isPending} type="submit" form="create-project-form">
                                 {createProjectMutation.isPending ? "Creating..." : "Create project"}
                             </Button>

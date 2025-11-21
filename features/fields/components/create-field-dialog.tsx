@@ -158,12 +158,11 @@ export function CreateFieldDialog({ entityId, children }: Props) {
                             Cancel
                         </Button>
                         <Button
-                            // disabled={createEntityMutation.isPending}
+                            disabled={createFieldMutation.isPending}
                             type="submit"
                             className="w-[60%]"
                             form="create-field-form">
-                            {/* {createEntityMutation.isPending ? "Creating..." : "Create entity"} */}
-                            Create field
+                            {createFieldMutation.isPending ? "Creating..." : "Create field"}
                         </Button>
                     </Field>
                 </form>

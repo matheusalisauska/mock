@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Boxes, HomeIcon, Wallet } from "lucide-react";
+import { Boxes, Braces, HomeIcon, Wallet } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -30,8 +30,8 @@ export default function SidebarComponent() {
     return (
         <aside className="bg-sidebar dark:bg-sidebar hidden h-full w-56 flex-col gap-y-8 p-4 lg:flex">
             <div className="flex items-center gap-2">
-                <div className="size-7 rounded-full bg-gray-500"></div>
-                <strong>Mock</strong>
+                <Braces color="#fe592c" size={28} />
+                <strong className="mb-1 text-xl text-white">MOCKLY</strong>
             </div>
             <div className="flex flex-col gap-2">
                 <SidebarItem title="Home" icon={<HomeIcon size={18} />} href="/home" />
