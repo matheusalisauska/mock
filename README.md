@@ -1,4 +1,4 @@
-## MOOCK API
+## MOCK API
 
 A full-stack project that provides API endpoints with mocked and randomly generated data for integration testing, built with **Next.js, oRPC, Prisma, React Query and Better Auth.**
 
