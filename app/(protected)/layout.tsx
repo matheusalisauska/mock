@@ -7,7 +7,7 @@ export default function ProtectedLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className="flex h-full">
+        <div className="bg-accent flex h-full">
             <SidebarComponent />
             <div className="flex flex-1 flex-col">
                 {children}

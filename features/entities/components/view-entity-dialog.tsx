@@ -3,8 +3,11 @@ import { PropsWithChildren } from "react";
 import { EntitiesWithFields } from "../server/entities-procedures";
 import { Separator } from "@/components/ui/separator";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
-import { Copy } from "lucide-react";
+import { CircleX, Clock, Copy, Lock } from "lucide-react";
 import { MOCK_API_BASE_URL } from "@/config/constants";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Slider } from "@/components/ui/slider";
 
 
 interface ViewEntityDialogProps extends PropsWithChildren {
@@ -33,6 +36,31 @@ export function ViewEntityDialog({ entity, isOpen, onOpenChange, children }: Vie
                             <Copy />
                         </InputGroupAddon>
                     </InputGroup>
+                </div>
+                <div className="flex flex-col gap-8">
+                    <div className="flex gap-8">
+                        <div className="flex flex-col gap-4">
+                            <div className="flex items-center gap-1">
+                                <Lock size={15} />
+                                <Label>Require Auth</Label>
+                            </div>
+                            <Switch />
+                        </div>
+                        <div className="flex flex-col gap-4">
+                            <div className="flex items-center gap-1">
+                                <CircleX size={15} />
+                                <Label>Throw Error</Label>
+                            </div>
+                            <Switch />
+                        </div>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                        <div className="flex items-center gap-2">
+                            <Clock size={15} />
+                            <Label>Response Time: <span className="text-sm">~1 second</span></Label>
+                        </div>
+                        <Slider defaultValue={[33]} max={100} step={1} />
+                    </div>
                 </div>
             </DialogContent>
         </Dialog>

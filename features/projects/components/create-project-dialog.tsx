@@ -38,31 +38,21 @@ export function CreateProjectDialog() {
     });
 
     const createProjectMutation = useMutation(orpc.projects.create.mutationOptions({
+        meta: {
+            successMessage: "Project created successfully.",
+        },
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: orpc.projects.getMany.key() });
 
-            toast.success(
-                <>
-                    Project <strong>{data.name}</strong> created successfully.
-                </>
-            );
             posthog.capture("project_created", { project_id: data.id, project_name: data.name });
             setOpen(false);
             form.reset();
         },
-        onError: (error) => {
-            if (isDefinedError(error)) {
-                toast.error(error.message);
-                return;
-            }
-            toast.error("Failed to create project. Please try again.");
-        }
     }));
 
     function onSubmit(data: CreateProjectDTO) {
         createProjectMutation.mutate(data);
     }
-
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>

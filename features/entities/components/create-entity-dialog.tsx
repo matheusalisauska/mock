@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -38,28 +40,22 @@ export function CreateEntityDialog({ children, projectId }: Props) {
 
 
     const createEntityMutation = useMutation(orpc.entities.create.mutationOptions({
+        meta: {
+            successMessage: "Entity created successfully."
+        },
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: orpc.entities.getMany.key() });
             queryClient.invalidateQueries({ queryKey: orpc.entities.getManyWithFields.key() });
 
-
-            toast.success(
-                <>
-                    Entity <strong>{data.name}</strong> created successfully.
-                </>
-            );
+            // toast.success(
+            //     <>
+            //         Entity <strong>{data.name}</strong> created successfully.
+            //     </>
+            // );
 
             setOpen(false);
             form.reset();
         },
-        onError: (error) => {
-            if (isDefinedError(error)) {
-                toast.error(error.message);
-                return;
-            }
-
-            toast.error("Failed to create entity. Please try again.");
-        }
     }));
 
     function onSubmit(data: CreateEntityDTO) {

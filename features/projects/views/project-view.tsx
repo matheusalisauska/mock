@@ -1,10 +1,10 @@
 import { EntityContainer } from "@/components/entity-component";
 import { orpc } from "@/lib/orpc";
-import { getQueryClient, HydrateClient } from "@/lib/query/hydration";
+import { getQueryClient } from "@/lib/query/hydration";
 import { EntitiesList } from "../../entities/components/entities-list";
-import { ProjectDetails } from "../components/project-view/project-details";
 import { ProjectHeader } from "../components/project-view/project-header";
-import { EntityCodeBlock } from "@/features/entities/components/entity-code-block";
+import { CreateEntityDialog } from "@/features/entities/components/create-entity-dialog";
+import { Button } from "@/components/ui/button";
 
 export async function ProjectView({ id }: { id: string }) {
     const queryClient = getQueryClient();
@@ -18,12 +18,20 @@ export async function ProjectView({ id }: { id: string }) {
         <EntityContainer
             header={<ProjectHeader />}
         >
-            <div className="flex w-full gap-8">
-                <HydrateClient client={queryClient}>
+            <div className="flex w-full flex-col gap-8">
+                {/* <HydrateClient client={queryClient}>
                     <ProjectDetails id={id} />
-                </HydrateClient>
+                </HydrateClient> */}
+                <div className="flex items-center justify-between">
+                    <div className="space-y-1">
+                        <h2 className="text-3xl font-semibold dark:text-white">Entities</h2>
+                        <p>Manage your entities</p>
+                    </div>
+                    <CreateEntityDialog projectId={id}>
+                        <Button variant={"default"}>Create new entity</Button>
+                    </CreateEntityDialog>
+                </div>
                 <EntitiesList id={id} />
-                <EntityCodeBlock projectId={id} />
             </div>
         </EntityContainer>
     );
